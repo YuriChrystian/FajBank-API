@@ -1,10 +1,10 @@
-package br.edu.unifaj.mobile.fajbank;
+package br.edu.unifaj.fajbank;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FajbankApplicationTests {
+class BankApplicationTests {
 
 	@Test
 	void contextLoads() {
