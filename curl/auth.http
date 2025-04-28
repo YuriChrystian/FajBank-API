@@ -1,0 +1,19 @@
+### Send login request
+POST http://127.0.0.1:8080/v1/signin
+Content-Type: application/json
+
+{
+  "email": "teste1@gmail.com",
+  "password": "123123"
+}
+
+### Send register customer request
+POST http://127.0.0.1:8080/v1/signup
+Content-Type: application/json
+
+{
+  "email": "teste1@gmail.com",
+  "password": "123123",
+  "first_name": "Lucas",
+  "second_name": "Lima"
+}

@@ -31,15 +31,29 @@ public class SignInController {
     @PostMapping
     public ResponseEntity<?> authenticate(@RequestBody AuthenticateRequest request) {
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.email(),
-                        request.password()
-                )
+        if (request.email() == null || request.password() == null) {
+            return ResponseEntity.badRequest().body("Email and password are required");
+        }
+
+        UsernamePasswordAuthenticationToken data = new UsernamePasswordAuthenticationToken(
+                request.email(),
+                request.getPasswordByQuery()
         );
+
+        try {
+            authenticationManager.authenticate(data);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
 
         String token = jwtService.encode(request.email());
 
-        return ResponseEntity.ok(new AuthenticateResponse(token, new Date()));
+        if (token == null) {
+            return ResponseEntity.badRequest().body("Failed to login");
+        }
+
+        AuthenticateResponse response = new AuthenticateResponse(token, new Date());
+
+        return ResponseEntity.ok(response);
     }
 }

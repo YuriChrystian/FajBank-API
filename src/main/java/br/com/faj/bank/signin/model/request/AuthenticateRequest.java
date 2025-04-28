@@ -4,4 +4,9 @@ public record AuthenticateRequest(
         String email,
         String password
 ) {
+
+    public String getPasswordByQuery() {
+        return "{noop}" + password;
+    }
+
 }
