@@ -1,0 +1,1 @@
+ALTER TABLE Customer ADD role varchar(20);
