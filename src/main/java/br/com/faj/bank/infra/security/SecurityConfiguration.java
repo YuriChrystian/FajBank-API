@@ -40,11 +40,4 @@ public class SecurityConfiguration {
                 .addFilterBefore(securityRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-
-    @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config
-    ) throws Exception {
-        return config.getAuthenticationManager();
-    }
 }

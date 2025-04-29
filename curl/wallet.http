@@ -1,0 +1,11 @@
+### Register a new payment method
+POST http://127.0.0.1:8080/v1/wallet/register-payment-method
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoMC1mYWpiYW5rIiwic3ViIjoidGVzdGUxQGdtYWlsLmNvbSIsImV4cCI6MTc0NTg4ODI1OX0.W_gD0nidtUrTLZ-KuasDgjabxvwEeTQSO-QqQmZEdCw
+
+{
+  "cardNumber": "",
+  "cardHolderName": "",
+  "expirationDate": "",
+  "cvv": ""
+}

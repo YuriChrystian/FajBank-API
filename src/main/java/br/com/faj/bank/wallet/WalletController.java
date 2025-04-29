@@ -5,12 +5,10 @@ import br.com.faj.bank.wallet.model.RegisterPaymentRequest;
 import br.com.faj.bank.wallet.model.domain.RegisterPaymentParamDomain;
 import net.minidev.json.JSONObject;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController("/v1/wallet")
+@RestController
+@RequestMapping("/v1/wallet")
 public class WalletController {
 
     private RegisterPaymentMethodUseCase registerUseCase;
