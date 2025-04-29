@@ -1,14 +1,23 @@
 package br.com.faj.bank.wallet.domain;
 
+import br.com.faj.bank.AppHelper;
+import br.com.faj.bank.wallet.data.CardPaymentMethodRepository;
 import br.com.faj.bank.wallet.model.domain.RegisterPaymentParamDomain;
 import br.com.faj.bank.wallet.model.domain.RegisterResultDomain;
 import br.com.faj.bank.wallet.model.domain.RegisterResultType;
+import br.com.faj.bank.wallet.model.entity.CardPaymentMethodEntity;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 @Component
 public class RegisterPaymentMethodUseCase {
+
+    private CardPaymentMethodRepository repository;
+
+    public RegisterPaymentMethodUseCase(
+            CardPaymentMethodRepository repository
+    ) {
+        this.repository = repository;
+    }
 
     public RegisterResultDomain registerPaymentMethod(
             RegisterPaymentParamDomain domain
@@ -21,14 +30,24 @@ public class RegisterPaymentMethodUseCase {
         if (number.length() != 11 ||
                 cvv.length() != 3 ||
                 expirationDate.length() != 5 ||
-                cardHolderName.split(" ").length > 1
+                cardHolderName.split(" ").length < 2
         ) {
             return RegisterResultDomain.of(RegisterResultType.ERROR);
         }
 
+        // verify number card already registered, if true, return ALREADY_REGISTERED
         // saved item in database here
+        CardPaymentMethodEntity entity = new CardPaymentMethodEntity();
+        entity.setCardNumber(number);
+        entity.setCvv(cvv);
+        entity.setExpirationDate(expirationDate);
+        entity.setCardHolderName(cardHolderName);
+        entity.setType("CREDIT");
+        entity.setBrand("NONE");
+        entity.setCustomerId(AppHelper.getCustomer().getId());
 
-        return RegisterResultDomain.of(RegisterResultType.SUCCESS, UUID.randomUUID().toString());
+        CardPaymentMethodEntity card = repository.save(entity);
+
+        return RegisterResultDomain.of(RegisterResultType.SUCCESS, card.getId().toString());
     }
-
 }

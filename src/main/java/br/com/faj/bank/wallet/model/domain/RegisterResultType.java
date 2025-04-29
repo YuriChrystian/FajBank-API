@@ -4,7 +4,8 @@ public enum RegisterResultType {
     SUCCESS("Success"),
     INVALID_DATA("Invalid data"),
     ALREADY_REGISTERED("Already registered"),
-    ERROR("Error");
+    ERROR("Error"),
+    FAILED_REGISTER("Fail register");
 
     private final String description;
 

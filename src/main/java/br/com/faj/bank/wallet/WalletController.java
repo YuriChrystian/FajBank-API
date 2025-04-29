@@ -4,6 +4,7 @@ import br.com.faj.bank.wallet.domain.RegisterPaymentMethodUseCase;
 import br.com.faj.bank.wallet.model.RegisterPaymentRequest;
 import br.com.faj.bank.wallet.model.domain.RegisterPaymentParamDomain;
 import net.minidev.json.JSONObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/v1/wallet")
 public class WalletController {
 
-    private RegisterPaymentMethodUseCase registerUseCase;
+    private final RegisterPaymentMethodUseCase registerUseCase;
 
     public WalletController(
             RegisterPaymentMethodUseCase registerUseCase
@@ -27,9 +28,10 @@ public class WalletController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/register-payment-method")
-    public ResponseEntity<?> registerPaymentMethod(
-            @RequestParam RegisterPaymentRequest paymentMethod
+    @PostMapping(path = "/register-payment-method", consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<String> registerPaymentMethod(
+            @RequestBody RegisterPaymentRequest paymentMethod
     ) {
 
         if (!paymentMethod.isValidData()) {
@@ -68,5 +70,4 @@ public class WalletController {
 
         return ResponseEntity.badRequest().build();
     }
-
 }
