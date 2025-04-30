@@ -1,4 +1,4 @@
-package br.com.faj.bank.service;
+package br.com.faj.bank.infra.security;
 
 import br.com.faj.bank.signup.domain.CustomerRepository;
 import org.springframework.security.core.userdetails.UserDetails;
