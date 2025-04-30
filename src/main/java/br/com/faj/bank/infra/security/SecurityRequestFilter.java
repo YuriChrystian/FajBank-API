@@ -45,10 +45,13 @@ public class SecurityRequestFilter extends OncePerRequestFilter {
         String email = service.verify(token);
         UserDetails customer = customerRepository.findByEmail(email);
 
-        var auth = new UsernamePasswordAuthenticationToken(customer, email, customer.getAuthorities());
-        SecurityContextHolder
-                .getContext()
-                .setAuthentication(auth);
+        if (customer != null) {
+            var auth = new UsernamePasswordAuthenticationToken(customer, email, customer.getAuthorities());
+            SecurityContextHolder
+                    .getContext()
+                    .setAuthentication(auth);
+        }
+
 
         filterChain.doFilter(request, response);
     }

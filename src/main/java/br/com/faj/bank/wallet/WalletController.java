@@ -2,8 +2,8 @@ package br.com.faj.bank.wallet;
 
 import br.com.faj.bank.wallet.domain.RegisterPaymentMethodUseCase;
 import br.com.faj.bank.wallet.model.RegisterPaymentRequest;
+import br.com.faj.bank.wallet.model.RegisterPaymentResponse;
 import br.com.faj.bank.wallet.model.domain.RegisterPaymentParamDomain;
-import net.minidev.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,16 +28,17 @@ public class WalletController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping(path = "/register-payment-method", consumes = "application/json")
+    @PostMapping(
+            path = "/register-payment-method",
+            consumes = "application/json"
+    )
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> registerPaymentMethod(
+    public ResponseEntity<RegisterPaymentResponse> registerPaymentMethod(
             @RequestBody RegisterPaymentRequest paymentMethod
     ) {
 
         if (!paymentMethod.isValidData()) {
-            var json = new JSONObject();
-            json.put("message", "All fields are required");
-            return ResponseEntity.badRequest().body(json.toJSONString());
+            return RegisterPaymentResponse.badRequest("All fields are required");
         }
 
         RegisterPaymentParamDomain domain = new RegisterPaymentParamDomain(
@@ -51,20 +52,13 @@ public class WalletController {
 
         switch (result.status()) {
             case SUCCESS -> {
-                var json = new JSONObject();
-                json.put("message", "Card registered successfully");
-                json.put("cardId", result.cardId());
-                return ResponseEntity.ok(json.toJSONString());
+                return RegisterPaymentResponse.created("Card registered successfully", result.cardId());
             }
             case ERROR, INVALID_DATA -> {
-                var json = new JSONObject();
-                json.put("message", "Invalid data");
-                return ResponseEntity.badRequest().body(json.toJSONString());
+                return RegisterPaymentResponse.badRequest("Invalid data");
             }
             case ALREADY_REGISTERED -> {
-                var json = new JSONObject();
-                json.put("message", "Card already registered");
-                return ResponseEntity.badRequest().body(json.toJSONString());
+                return RegisterPaymentResponse.badRequest("Card already registered");
             }
         }
 
