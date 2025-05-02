@@ -1,4 +1,4 @@
-package br.com.faj.bank.wallet.model;
+package br.com.faj.bank.wallet.model.request;
 
 public record RegisterPaymentRequest(
         String cardNumber,
