@@ -3,19 +3,22 @@ spring:
     name: bank
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/fajbank?useTimezone=true&serverTimezone=UTC
     username: "${FAJBANK_USERNAME_DATABASE}"
     password: "${FAJBANK_PASSWORD_DATABASE}"
+    url: jdbc:mysql://localhost:3306/fajbank?useTimezone=true&serverTimezone=UTC
 
   flyway:
     baseline-on-migrate: true
-    enabled: true
+    enabled: false
     locations: classpath:db/migration
 
 jwt:
-  secret: "${JWT_SECRET_FAJBANK:teste}"
+  secret: "${JWT_SECRET_FAJBANK}"
   public: root
