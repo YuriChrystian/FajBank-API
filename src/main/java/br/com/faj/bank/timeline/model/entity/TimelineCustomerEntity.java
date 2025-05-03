@@ -9,6 +9,7 @@ import java.util.Date;
 public class TimelineCustomerEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long customerId;
