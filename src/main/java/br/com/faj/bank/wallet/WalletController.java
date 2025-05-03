@@ -1,6 +1,6 @@
 package br.com.faj.bank.wallet;
 
-import br.com.faj.bank.AppHelper;
+import br.com.faj.bank.core.AppHelper;
 import br.com.faj.bank.wallet.data.CardPaymentMethodRepository;
 import br.com.faj.bank.wallet.domain.CheckPaymentMethodExistUseCase;
 import br.com.faj.bank.wallet.domain.RegisterPaymentMethodUseCase;

@@ -1,8 +1,7 @@
-package br.com.faj.bank;
+package br.com.faj.bank.core;
 
 import br.com.faj.bank.signup.model.entity.CustomerEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 
 public class AppHelper {
 
@@ -14,5 +13,4 @@ public class AppHelper {
         }
         return customer;
     }
-
 }
