@@ -1,21 +1,23 @@
 package br.com.faj.bank.wallet;
 
-import br.com.faj.bank.core.AppHelper;
+import br.com.faj.bank.core.SessionCustomer;
 import br.com.faj.bank.wallet.data.CardPaymentMethodRepository;
+import br.com.faj.bank.wallet.data.WalletCustomerRepository;
 import br.com.faj.bank.wallet.domain.CheckPaymentMethodExistUseCase;
+import br.com.faj.bank.wallet.domain.FetchPaymentMethodByCustomerUseCase;
 import br.com.faj.bank.wallet.domain.RegisterPaymentMethodUseCase;
 import br.com.faj.bank.wallet.domain.RemovePaymentMethodUseCase;
-import br.com.faj.bank.wallet.domain.converte.MobilePaymentMethodFormatConverter;
-import br.com.faj.bank.wallet.model.entity.CardPaymentMethodEntity;
+import br.com.faj.bank.wallet.model.entity.WalletCustomerEntity;
 import br.com.faj.bank.wallet.model.request.RegisterPaymentRequest;
 import br.com.faj.bank.wallet.model.response.PaymentMethodResponse;
 import br.com.faj.bank.wallet.model.response.RegisterPaymentResponse;
 import br.com.faj.bank.wallet.model.domain.RegisterPaymentParamDomain;
+import br.com.faj.bank.wallet.model.response.WalletCustomerResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -25,40 +27,57 @@ public class WalletController {
     private final RemovePaymentMethodUseCase removePaymentMethodUseCase;
     private final CheckPaymentMethodExistUseCase checkExistUseCase;
     private final RegisterPaymentMethodUseCase registerUseCase;
+    private final FetchPaymentMethodByCustomerUseCase fetchPaymentMethodUseCase;
+
     private final CardPaymentMethodRepository repository;
+    private final WalletCustomerRepository walletCustomerRepository;
+
+    private final SessionCustomer sessionCustomer;
 
     public WalletController(
             RegisterPaymentMethodUseCase registerUseCase,
             CheckPaymentMethodExistUseCase checkExistUseCase,
             RemovePaymentMethodUseCase removePaymentMethodUseCase,
-            CardPaymentMethodRepository repository
+            FetchPaymentMethodByCustomerUseCase fetchPaymentMethodUseCase,
+            WalletCustomerRepository walletCustomerRepository,
+            CardPaymentMethodRepository repository,
+            SessionCustomer sessionCustomer
+
     ) {
+        this.walletCustomerRepository = walletCustomerRepository;
         this.registerUseCase = registerUseCase;
         this.repository = repository;
         this.checkExistUseCase = checkExistUseCase;
         this.removePaymentMethodUseCase = removePaymentMethodUseCase;
+        this.sessionCustomer = sessionCustomer;
+        this.fetchPaymentMethodUseCase = fetchPaymentMethodUseCase;
     }
 
-    @GetMapping("/card-bin")
-    public ResponseEntity<String> recoveryBin(
-            @RequestParam("bin") String bin
-    ) {
-        return ResponseEntity.ok().build();
+    @GetMapping("/bff-mobile")
+    public ResponseEntity<WalletCustomerResponse> getBalance() {
+
+        var wallet = walletCustomerRepository.findByCustomerId(sessionCustomer.getCustomerId());
+
+        // rever logica na criacao do consumidor
+        if (wallet == null) {
+            WalletCustomerEntity walletCustomerEntity = new WalletCustomerEntity();
+            walletCustomerEntity.setCustomerId(sessionCustomer.getCustomerId());
+            walletCustomerEntity.setBalance(BigDecimal.ZERO);
+
+            walletCustomerRepository.save(walletCustomerEntity);
+            wallet = walletCustomerEntity;
+        }
+
+        return ResponseEntity.ok(new WalletCustomerResponse(
+                        wallet.getBalance(),
+                        fetchPaymentMethodUseCase.fetch()
+                )
+        );
     }
 
     @GetMapping
     public ResponseEntity<List<PaymentMethodResponse>> allPaymentMethods() {
-
-        Long customerId = AppHelper.getCustomer().getId();
-        List<CardPaymentMethodEntity> list = repository.findAllByCustomerId(customerId);
-
-        if (list.isEmpty()) {
-            return ResponseEntity.ok(Collections.emptyList());
-        }
-
-        var cards = list.stream().map(MobilePaymentMethodFormatConverter::converter);
-
-        return ResponseEntity.ok(cards.toList());
+        return ResponseEntity.ok(fetchPaymentMethodUseCase.fetch());
     }
 
     @PostMapping(
