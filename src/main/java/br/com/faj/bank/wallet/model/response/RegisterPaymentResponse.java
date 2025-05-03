@@ -1,4 +1,4 @@
-package br.com.faj.bank.wallet.model;
+package br.com.faj.bank.wallet.model.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.http.HttpStatus;
