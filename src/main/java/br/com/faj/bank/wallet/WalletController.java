@@ -4,6 +4,7 @@ import br.com.faj.bank.AppHelper;
 import br.com.faj.bank.wallet.data.CardPaymentMethodRepository;
 import br.com.faj.bank.wallet.domain.CheckPaymentMethodExistUseCase;
 import br.com.faj.bank.wallet.domain.RegisterPaymentMethodUseCase;
+import br.com.faj.bank.wallet.domain.RemovePaymentMethodUseCase;
 import br.com.faj.bank.wallet.domain.converte.MobilePaymentMethodFormatConverter;
 import br.com.faj.bank.wallet.model.entity.CardPaymentMethodEntity;
 import br.com.faj.bank.wallet.model.request.RegisterPaymentRequest;
@@ -21,18 +22,21 @@ import java.util.List;
 @RequestMapping("/v1/wallet")
 public class WalletController {
 
-    CheckPaymentMethodExistUseCase checkExistUseCase;
+    private final RemovePaymentMethodUseCase removePaymentMethodUseCase;
+    private final CheckPaymentMethodExistUseCase checkExistUseCase;
     private final RegisterPaymentMethodUseCase registerUseCase;
     private final CardPaymentMethodRepository repository;
 
     public WalletController(
             RegisterPaymentMethodUseCase registerUseCase,
             CheckPaymentMethodExistUseCase checkExistUseCase,
+            RemovePaymentMethodUseCase removePaymentMethodUseCase,
             CardPaymentMethodRepository repository
     ) {
         this.registerUseCase = registerUseCase;
         this.repository = repository;
         this.checkExistUseCase = checkExistUseCase;
+        this.removePaymentMethodUseCase = removePaymentMethodUseCase;
     }
 
     @GetMapping("/card-bin")
@@ -55,6 +59,22 @@ public class WalletController {
         var cards = list.stream().map(MobilePaymentMethodFormatConverter::converter);
 
         return ResponseEntity.ok(cards.toList());
+    }
+
+    @PostMapping(
+            path ="/remove/{cardId}",
+            consumes = "application/json"
+    )
+    public ResponseEntity<?> removePaymentMethod(
+            @PathVariable("cardId") Long cardId) {
+
+        var remove = removePaymentMethodUseCase.remove(cardId);
+
+        if (remove == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(
