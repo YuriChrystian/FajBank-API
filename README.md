@@ -6,6 +6,8 @@ TODO
 ## Project Setup
 
 TODO
+- todo
+- todo
 
 ## Dev Notes
 
