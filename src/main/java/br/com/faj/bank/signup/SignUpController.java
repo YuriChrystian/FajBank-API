@@ -6,6 +6,7 @@ import br.com.faj.bank.customer.model.entity.CustomerEntity;
 import br.com.faj.bank.signup.model.request.SignUpRequest;
 import br.com.faj.bank.signup.model.response.SignUpResponse;
 import br.com.faj.bank.signup.model.response.SignUpStrategy;
+import br.com.faj.bank.timeline.domain.RegisterCustomerTimelineUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,11 +20,14 @@ public class SignUpController {
 
     private final BCryptPasswordEncoder cryptPassword;
     private final CustomerRepository customerRepository;
+    private final RegisterCustomerTimelineUseCase timeline;
 
     public SignUpController(
+            RegisterCustomerTimelineUseCase timeline,
             BCryptPasswordEncoder cryptPassword,
             CustomerRepository customerRepository
     ) {
+        this.timeline = timeline;
         this.cryptPassword = cryptPassword;
         this.customerRepository = customerRepository;
     }
@@ -45,7 +49,10 @@ public class SignUpController {
         customerEntity.setLastName(signUpRequest.getSecondName());
         customerEntity.setRole(CustomerRole.CUSTOMER.getRole());
 
-        customerRepository.save(customerEntity);
+        var customer = customerRepository.save(customerEntity);
+
+
+        timeline.registerNewCustomer(customer.getId());
 
         return ResponseEntity.ok(new SignUpResponse("Criado com sucesso","OK"));
     }
