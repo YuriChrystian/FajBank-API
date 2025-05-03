@@ -14,7 +14,7 @@ public class TimelineCustomerEntity {
 
     private Long customerId;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIME)
     private Date registredIn;
 
     private Integer type;

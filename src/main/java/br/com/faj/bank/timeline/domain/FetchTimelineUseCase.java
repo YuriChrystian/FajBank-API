@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static br.com.faj.bank.timeline.model.TimelineType.CUSTOMER;
 
@@ -38,9 +39,10 @@ public class FetchTimelineUseCase {
         List<TimelineDomain> timelineDomains = new ArrayList<>();
 
         var timeline = timelineRepository.findAllByCustomerIdOrderByRegistredInAsc(session.getCustomerId());
+        var subTimelines = customerRepository.findByCustomerId(session.getCustomerId());
 
         for (TimelineEntity timelineEntity : timeline) {
-            recoveryDataTemplate(timelineDomains, timelineEntity);
+            recoveryDataTemplate(timelineDomains, subTimelines, timelineEntity);
         }
 
         return timelineDomains;
@@ -48,18 +50,26 @@ public class FetchTimelineUseCase {
 
     private void recoveryDataTemplate(
             List<TimelineDomain> timeline,
+            List<TimelineCustomerEntity> timelineCustomer,
             TimelineEntity timelineEntity
     ) {
         switch (TimelineType.values()[timelineEntity.getTypeSubTimeline()]) {
             case CUSTOMER:
-                var subTimelines = customerRepository.findByCustomerId(timelineEntity.getCustomerId());
-                for (TimelineCustomerEntity item : subTimelines) {
-                    timeline.add(new TimelineDomain(
-                            CUSTOMER,
-                            item.getRegistredIn(),
-                            recoverySubCustomerTemplate(item)
-                    ));
-                }
+                var item = timelineCustomer
+                        .stream()
+                        .filter(data -> Objects.equals(data.getId(), timelineEntity.getId()))
+                        .findFirst();
+
+                item.ifPresent(timelineCustomerEntity -> timeline.add(
+                        new TimelineDomain(
+                                CUSTOMER,
+                                timelineCustomerEntity.getRegistredIn(),
+                                recoverySubCustomerTemplate(timelineCustomerEntity)
+                        )
+                ));
+                break;
+            default:
+                System.out.println("Invalid sub timeline type");
                 break;
         }
     }
