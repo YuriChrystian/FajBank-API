@@ -10,6 +10,35 @@ jobs:
       - uses: mshick/add-pr-comment@v2
         with:
           message: |
-            **Hello**
-            🌏
-            !
+            **Iniciando validação**
+      - uses: thehanimo/pr-title-checker@v1.4.3
+        id: check
+        continue-on-error: true
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          pass_on_octokit_error: false
+      
+      - name: Add comment to fix PR title
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: ${{ steps.check.outputs.success == 'false'}}
+        with:
+          header: 'PR Title Check'
+          recreate: true
+          message: |
+              ### 🚨 Formatação Necessária no Título da PR
+              O título desta PR precisa ser formatado corretamente e incluir uma Referência do Azure Boards.
+              Por favor, atualize o título para corresponder ao formato `tipo: descrição AB#xxx`. Exemplos:
+              * `bugfix: fix typo in README.md AB#123`
+              * `chore: update dependencies AB#456`
+              * `feat: add new feature AB#789`
+              * `chore: fixing build pipeline` - no AB reference
+
+      - name: Add comment that PR title is fixed
+        if: ${{ steps.check.outputs.success == 'true'}}
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: 'PR Title Check'
+          recreate: true
+          message: |
+              ### ✅ Título da PR Formatado Corretamente
+              O título desta PR foi atualizado para corresponder ao formato correto. Obrigado!      
