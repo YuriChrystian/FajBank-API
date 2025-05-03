@@ -1,6 +1,6 @@
 package br.com.faj.bank.core;
 
-import br.com.faj.bank.signup.model.entity.CustomerEntity;
+import br.com.faj.bank.customer.model.entity.CustomerEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public class AppHelper {

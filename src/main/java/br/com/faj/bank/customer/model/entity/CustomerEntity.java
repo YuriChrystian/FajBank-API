@@ -1,13 +1,11 @@
-package br.com.faj.bank.signup.model.entity;
+package br.com.faj.bank.customer.model.entity;
 
-import br.com.faj.bank.signup.model.CustomerRole;
-import br.com.faj.bank.signup.model.CustomerRoleUtils;
+import br.com.faj.bank.customer.model.CustomerRoleUtils;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Table(name = "customer")

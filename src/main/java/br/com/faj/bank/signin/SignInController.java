@@ -17,8 +17,8 @@ import java.util.Date;
 @RequestMapping("/v1/signin")
 public class SignInController {
 
-    private AuthenticationManager authenticationManager;
-    private JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
     public SignInController(
             AuthenticationManager authenticationManager,

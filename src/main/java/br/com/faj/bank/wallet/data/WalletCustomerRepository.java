@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface WalletCustomerRepository extends CrudRepository<WalletCustomerEntity, Long> {
 
-    @Query("select w from WalletCustomerEntity w where w.customer_id = :id")
+    @Query("select w from WalletCustomerEntity w where w.customerId = :id")
     WalletCustomerEntity findByCustomerId(@Param("id") Long id);
 
 }

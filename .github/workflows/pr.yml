@@ -1,5 +1,11 @@
 on:
-  pull_request:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - labeled
+      - unlabeled
 
 jobs:
   test:
@@ -17,7 +23,8 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           pass_on_octokit_error: false
-      
+          configuration_path: .github/pr-title-checker-config.json
+
       - name: Add comment to fix PR title
         uses: marocchino/sticky-pull-request-comment@v2
         if: ${{ steps.check.outputs.success == 'false'}}

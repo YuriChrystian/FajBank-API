@@ -1,6 +1,6 @@
 package br.com.faj.bank.infra.security;
 
-import br.com.faj.bank.signup.domain.CustomerRepository;
+import br.com.faj.bank.customer.data.CustomerRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

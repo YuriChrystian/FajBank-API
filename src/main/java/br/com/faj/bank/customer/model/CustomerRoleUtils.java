@@ -1,4 +1,4 @@
-package br.com.faj.bank.signup.model;
+package br.com.faj.bank.customer.model;
 
 import java.util.Arrays;
 

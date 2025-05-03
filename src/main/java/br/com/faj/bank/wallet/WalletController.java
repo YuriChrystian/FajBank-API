@@ -29,7 +29,7 @@ public class WalletController {
     private final RegisterPaymentMethodUseCase registerUseCase;
     private final FetchPaymentMethodByCustomerUseCase fetchPaymentMethodUseCase;
 
-    private final CardPaymentMethodRepository repository;
+    // remover no futuro, colocar dentro de uma use case
     private final WalletCustomerRepository walletCustomerRepository;
 
     private final SessionCustomer sessionCustomer;
@@ -40,13 +40,11 @@ public class WalletController {
             RemovePaymentMethodUseCase removePaymentMethodUseCase,
             FetchPaymentMethodByCustomerUseCase fetchPaymentMethodUseCase,
             WalletCustomerRepository walletCustomerRepository,
-            CardPaymentMethodRepository repository,
             SessionCustomer sessionCustomer
 
     ) {
         this.walletCustomerRepository = walletCustomerRepository;
         this.registerUseCase = registerUseCase;
-        this.repository = repository;
         this.checkExistUseCase = checkExistUseCase;
         this.removePaymentMethodUseCase = removePaymentMethodUseCase;
         this.sessionCustomer = sessionCustomer;
