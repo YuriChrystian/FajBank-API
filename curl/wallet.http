@@ -16,3 +16,8 @@ Authorization: Bearer {{auth_token}}
 GET http://127.0.0.1:8080/v1/wallet
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
+
+### DELETE payment method
+POST http://127.0.0.1:8080/v1/wallet/remove/1
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
