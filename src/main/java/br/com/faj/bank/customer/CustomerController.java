@@ -1,22 +1,26 @@
 package br.com.faj.bank.customer;
 
 import br.com.faj.bank.customer.domain.FetchCustomerUseCase;
+import br.com.faj.bank.customer.domain.UpdateCustomerFieldUseCase;
+import br.com.faj.bank.customer.model.request.UpdateCustomerRequest;
 import br.com.faj.bank.customer.model.response.CustomerResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/customer")
 public class CustomerController {
 
     private final FetchCustomerUseCase fetchCustomerUseCase;
+    private final UpdateCustomerFieldUseCase updateCustomerFieldUseCase;
 
     public CustomerController(
+            UpdateCustomerFieldUseCase updateCustomerFieldUseCase,
             FetchCustomerUseCase fetchCustomerUseCase
     ) {
+        this.updateCustomerFieldUseCase = updateCustomerFieldUseCase;
         this.fetchCustomerUseCase = fetchCustomerUseCase;
     }
 
@@ -27,6 +31,20 @@ public class CustomerController {
 
         if (data == null) {
             throw new SessionAuthenticationException("No customer found");
+        }
+
+        return CustomerResponse.responseOk(data);
+    }
+
+    @PostMapping
+    public ResponseEntity<CustomerResponse> editField(
+            @RequestBody UpdateCustomerRequest request
+    ) {
+
+        var data = updateCustomerFieldUseCase.update(request.fields());
+
+        if (data == null) {
+           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 
         return CustomerResponse.responseOk(data);
