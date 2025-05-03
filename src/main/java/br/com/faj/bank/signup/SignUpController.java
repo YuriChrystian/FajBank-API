@@ -1,8 +1,8 @@
 package br.com.faj.bank.signup;
 
-import br.com.faj.bank.signup.domain.CustomerRepository;
-import br.com.faj.bank.signup.model.CustomerRole;
-import br.com.faj.bank.signup.model.entity.CustomerEntity;
+import br.com.faj.bank.customer.data.CustomerRepository;
+import br.com.faj.bank.customer.model.CustomerRole;
+import br.com.faj.bank.customer.model.entity.CustomerEntity;
 import br.com.faj.bank.signup.model.request.SignUpRequest;
 import br.com.faj.bank.signup.model.response.SignUpResponse;
 import br.com.faj.bank.signup.model.response.SignUpStrategy;
@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/signup")
 public class SignUpController {
 
-    private BCryptPasswordEncoder cryptPassword;
-    private CustomerRepository customerRepository;
+    private final BCryptPasswordEncoder cryptPassword;
+    private final CustomerRepository customerRepository;
 
     public SignUpController(
             BCryptPasswordEncoder cryptPassword,

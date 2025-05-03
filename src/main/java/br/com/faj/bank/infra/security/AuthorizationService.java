@@ -1,6 +1,6 @@
 package br.com.faj.bank.infra.security;
 
-import br.com.faj.bank.signup.domain.CustomerRepository;
+import br.com.faj.bank.customer.data.CustomerRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

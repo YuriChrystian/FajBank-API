@@ -13,10 +13,8 @@ public class WalletCustomerEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "customer_id")
     private Long customerId;
 
-    @Column
     private BigDecimal balance;
 
     public void setId(Long id) {
