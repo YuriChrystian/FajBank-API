@@ -1,0 +1,17 @@
+{
+  "LABEL": {
+    "name": "Precisa ajustar o titulo",
+    "color": "EEEEEE"
+  },
+  "CHECKS": {
+    "prefixes": ["fix: ", "feat: "],
+    "regexp": "docs\\(v[0-9]\\): ",
+    "regexpFlags": "i",
+    "ignoreLabels" : ["dont-check-PRs-with-this-label", "meta"]
+  },
+  "MESSAGES": {
+    "success": "Tudo certinho",
+    "failure": "Ocorreu uma falha",
+    "notice": ""
+  }
+}
