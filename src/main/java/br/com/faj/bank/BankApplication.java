@@ -1,5 +1,6 @@
 package br.com.faj.bank;
 
+import br.com.faj.bank.core.SessionCustomer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,11 @@ public class BankApplication {
             AuthenticationConfiguration config
     ) throws Exception {
         return config.getAuthenticationManager();
+    }
+
+    @Bean
+    public SessionCustomer sessionCustomer() {
+        return () -> AppHelper.getCustomer().getId();
     }
 
     public static void main(String[] args) {

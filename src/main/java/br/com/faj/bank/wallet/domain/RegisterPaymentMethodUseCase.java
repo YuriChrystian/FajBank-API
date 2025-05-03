@@ -1,6 +1,6 @@
 package br.com.faj.bank.wallet.domain;
 
-import br.com.faj.bank.AppHelper;
+import br.com.faj.bank.core.SessionCustomer;
 import br.com.faj.bank.wallet.data.CardPaymentMethodRepository;
 import br.com.faj.bank.wallet.model.domain.RegisterPaymentParamDomain;
 import br.com.faj.bank.wallet.model.domain.RegisterResultDomain;
@@ -12,11 +12,14 @@ import org.springframework.stereotype.Component;
 public class RegisterPaymentMethodUseCase {
 
     private CardPaymentMethodRepository repository;
+    private SessionCustomer sessionCustomer;
 
     public RegisterPaymentMethodUseCase(
-            CardPaymentMethodRepository repository
+            CardPaymentMethodRepository repository,
+            SessionCustomer sessionCustomer
     ) {
         this.repository = repository;
+        this.sessionCustomer = sessionCustomer;
     }
 
     public RegisterResultDomain registerPaymentMethod(
@@ -44,7 +47,7 @@ public class RegisterPaymentMethodUseCase {
         entity.setCardHolderName(cardHolderName);
         entity.setType("CREDIT");
         entity.setBrand("NONE");
-        entity.setCustomerId(AppHelper.getCustomer().getId());
+        entity.setCustomerId(sessionCustomer.getCustomerId());
 
         CardPaymentMethodEntity card = repository.save(entity);
 

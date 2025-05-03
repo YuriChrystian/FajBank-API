@@ -11,4 +11,6 @@ public interface CardPaymentMethodRepository extends CrudRepository<CardPaymentM
     @Query("select c from CardPaymentMethodEntity c where c.customer_id = :id")
     List<CardPaymentMethodEntity> findAllByCustomerId(Long id);
 
+    @Query("select c from CardPaymentMethodEntity c where c.cardNumber = :cardNumber and c.customer_id = :customerId")
+    CardPaymentMethodEntity findPaymentMethodByNumberAndCustomer(String cardNumber, Long customerId);
 }

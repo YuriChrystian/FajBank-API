@@ -2,6 +2,7 @@ package br.com.faj.bank.wallet;
 
 import br.com.faj.bank.AppHelper;
 import br.com.faj.bank.wallet.data.CardPaymentMethodRepository;
+import br.com.faj.bank.wallet.domain.CheckPaymentMethodExistUseCase;
 import br.com.faj.bank.wallet.domain.RegisterPaymentMethodUseCase;
 import br.com.faj.bank.wallet.domain.converte.MobilePaymentMethodFormatConverter;
 import br.com.faj.bank.wallet.model.entity.CardPaymentMethodEntity;
@@ -20,15 +21,18 @@ import java.util.List;
 @RequestMapping("/v1/wallet")
 public class WalletController {
 
+    CheckPaymentMethodExistUseCase checkExistUseCase;
     private final RegisterPaymentMethodUseCase registerUseCase;
     private final CardPaymentMethodRepository repository;
 
     public WalletController(
             RegisterPaymentMethodUseCase registerUseCase,
+            CheckPaymentMethodExistUseCase checkExistUseCase,
             CardPaymentMethodRepository repository
     ) {
         this.registerUseCase = registerUseCase;
         this.repository = repository;
+        this.checkExistUseCase = checkExistUseCase;
     }
 
     @GetMapping("/card-bin")
@@ -53,8 +57,6 @@ public class WalletController {
         return ResponseEntity.ok(cards.toList());
     }
 
-    // TODO criar regra para nao deixar cadastrar um cartao ja existente
-    // Travar o limite de cartao em 5
     @PostMapping(
             path = "/register-payment-method",
             consumes = "application/json"
@@ -66,6 +68,10 @@ public class WalletController {
 
         if (!paymentMethod.isValidData()) {
             return RegisterPaymentResponse.badRequest("All fields are required");
+        }
+
+        if (checkExistUseCase.existsPaymentMethod(paymentMethod.cardNumber())) {
+            return RegisterPaymentResponse.badRequest("Card already registered");
         }
 
         RegisterPaymentParamDomain domain = new RegisterPaymentParamDomain(
