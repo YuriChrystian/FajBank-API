@@ -1,7 +1,6 @@
 ![Version](https://img.shields.io/badge/0.0.1-alpha)
 
 # FajBank 🍎
-
 FajBank é uma API REST desenvolvida em Java com Spring Boot que simula operações bancárias básicas. O projeto oferece funcionalidades como autenticação de usuários, gerenciamento de carteiras digitais, métodos de pagamento e timeline de atividades.
 
 ## Características Principais
