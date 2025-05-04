@@ -38,8 +38,13 @@ public class SecurityConfiguration {
                 )
                 .authorizeHttpRequests(authorize ->
                         authorize
+                                // Auth endpoints
                                 .requestMatchers(HttpMethod.POST, "/v1/signup").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/v1/signin").permitAll()
+                                // Swagger endpoints
+                                .requestMatchers("/swagger-ui/**").permitAll()
+                                .requestMatchers("/v3/api-docs/**").permitAll()
+                                .requestMatchers("/api-docs/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .exceptionHandling(exceptionHandling ->
