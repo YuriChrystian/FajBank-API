@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Service
@@ -27,7 +29,7 @@ public class JwtService {
             return JWT.create()
                     .withIssuer("auth0-fajbank")
                     .withSubject(email)
-                    .withExpiresAt(Date.from(Instant.now().plus(Duration.ofMinutes(3))))
+                    .withExpiresAt(getExpirationDate())
                     .sign(algorithm);
         } catch (JWTCreationException exception){
             throw new RuntimeException("Invalid Signing configuration / Couldn't convert Claims.", exception);
@@ -45,6 +47,11 @@ public class JwtService {
         } catch (JWTVerificationException exception){
             return null;
         }
+    }
+
+    private Date getExpirationDate() {
+        LocalDateTime expiration = LocalDateTime.now().plusHours(2);
+        return Date.from(expiration.atZone(ZoneId.systemDefault()).toInstant());
     }
 
 }

@@ -2,7 +2,7 @@ package br.com.faj.bank.timeline.model.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "timeline")
@@ -18,8 +18,7 @@ public class TimelineEntity {
 
     private Long customerId;
 
-    @Temporal(TemporalType.TIME)
-    private Date registredIn;
+    private LocalDateTime registredIn;
 
     public Long getId() {
         return id;
@@ -53,11 +52,11 @@ public class TimelineEntity {
         this.customerId = customerId;
     }
 
-    public Date getRegistredIn() {
+    public LocalDateTime getRegistredIn() {
         return registredIn;
     }
 
-    public void setRegistredIn(Date registredIn) {
+    public void setRegistredIn(LocalDateTime registredIn) {
         this.registredIn = registredIn;
     }
 }

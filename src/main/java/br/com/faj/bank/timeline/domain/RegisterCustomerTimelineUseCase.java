@@ -10,8 +10,7 @@ import br.com.faj.bank.timeline.model.entity.TimelineEntity;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Component
 public class RegisterCustomerTimelineUseCase {
@@ -36,7 +35,7 @@ public class RegisterCustomerTimelineUseCase {
         TimelineCustomerEntity customer = new TimelineCustomerEntity();
         customer.setCustomerId(customerId);
         customer.setType(TimelineCustomerType.NEW_CUSTOMER.type);
-        customer.setRegistredIn(Date.from(Instant.now()));
+        customer.setRegistredIn(LocalDateTime.now());
 
         TimelineCustomerEntity register = timelineCustomerRepository.save(customer);
 
@@ -47,7 +46,7 @@ public class RegisterCustomerTimelineUseCase {
         TimelineCustomerEntity customer = new TimelineCustomerEntity();
         customer.setCustomerId(session.getCustomerId());
         customer.setType(TimelineCustomerType.UPDATE_PROFILE.type);
-        customer.setRegistredIn(Date.from(Instant.now()));
+        customer.setRegistredIn(LocalDateTime.now());
 
         TimelineCustomerEntity register = timelineCustomerRepository.save(customer);
 
@@ -58,7 +57,7 @@ public class RegisterCustomerTimelineUseCase {
         TimelineEntity timeline = new TimelineEntity();
         timeline.setCustomerId(customerId);
         timeline.setSubTimelineId(subTimelineId);
-        timeline.setRegistredIn(Date.from(Instant.now()));
+        timeline.setRegistredIn(LocalDateTime.now());
         timeline.setTypeSubTimeline(type.ordinal());
 
         return timeline;
