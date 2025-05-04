@@ -87,5 +87,6 @@ jobs:
           recreate: true
           message: |
             ### 🧪 Resultado dos Testes
-            
+    
             ${{ job.status == 'success' && '✅ Todos os testes passaram com sucesso!' || '❌ Alguns testes falharam. Por favor, verifique os logs para mais detalhes.' }}
+          fail-if: ${{ job.status != 'success' }}  
