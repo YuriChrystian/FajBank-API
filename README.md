@@ -30,6 +30,7 @@ A documentação completa dos endpoints está disponível em dois formatos:
 - [Carteira Digital](doc/endpoints/wallet.md)
 - [Faturas](doc/endpoints/invoice.md)
 - [Timeline](doc/endpoints/timeline.md)
+- [Checkout](TODO)
 
 ## Configuração do Projeto
 
