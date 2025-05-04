@@ -51,5 +51,3 @@ O token deve ser enviado no header Authorization: `Bearer {token}`
 ## Notas de Desenvolvimento
 
 - [Timeline](doc/timeline-doc.md)
-- [Guia de Contribuição](doc/CONTRIBUTING.md)
-- [Changelog](CHANGELOG.md)
