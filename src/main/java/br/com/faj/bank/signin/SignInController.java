@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/v1/signin")
@@ -52,7 +52,7 @@ public class SignInController {
             return ResponseEntity.badRequest().body("Failed to login");
         }
 
-        AuthenticateResponse response = new AuthenticateResponse(token, new Date());
+        AuthenticateResponse response = new AuthenticateResponse(token, LocalDateTime.now());
 
         return ResponseEntity.ok(response);
     }
