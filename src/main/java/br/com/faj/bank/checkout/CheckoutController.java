@@ -6,10 +6,7 @@ import br.com.faj.bank.checkout.model.response.CheckoutFailResponse;
 import br.com.faj.bank.checkout.model.response.CheckoutTransactionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/checkout")
@@ -46,5 +43,22 @@ public class CheckoutController {
 
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
+    }
+
+
+    @GetMapping("/status/{transaction_id}")
+    public ResponseEntity<?> getTransactionStatus(
+            @PathVariable("transaction_id") String transactionId
+    ) {
+        // TODO
+        return ResponseEntity.internalServerError().body(null);
+    }
+
+    @PutMapping("/cancel/{transaction_id}")
+    public ResponseEntity<?> cancelTransaction(
+            @PathVariable("transaction_id") String transactionId
+    ) {
+        // TODO
+        return ResponseEntity.internalServerError().body(null);
     }
 }

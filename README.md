@@ -10,6 +10,7 @@ FajBank é uma API REST desenvolvida em Java com Spring Boot que simula operaç�
 - Gerenciamento de carteira digital
 - Registro e gerenciamento de métodos de pagamento
 - Gerenciamento de faturas mensais
+- Sistema de checkout para pagamentos
 - Timeline de atividades do usuário
 - Endpoints RESTful
 - Criptografia de dados sensíveis
@@ -30,7 +31,7 @@ A documentação completa dos endpoints está disponível em dois formatos:
 - [Carteira Digital](doc/endpoints/wallet.md)
 - [Faturas](doc/endpoints/invoice.md)
 - [Timeline](doc/endpoints/timeline.md)
-- [Checkout](TODO)
+- [Checkout](doc/endpoints/checkout.md)
 
 ## Configuração do Projeto
 
@@ -48,6 +49,10 @@ Para executar o projeto localmente:
 
 Todos os endpoints (exceto /v1/signup e /v1/signin) requerem autenticação via token JWT.
 O token deve ser enviado no header Authorization: `Bearer {token}`
+
+## Exemplos de Uso
+
+Você pode encontrar exemplos de requisições HTTP para todos os endpoints no diretório [curl](curl/). Os exemplos estão em formato `.http` e podem ser executados diretamente em IDEs como VSCode ou IntelliJ IDEA.
 
 ## Notas de Desenvolvimento
 
