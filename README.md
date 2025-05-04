@@ -9,6 +9,7 @@ FajBank é uma API REST desenvolvida em Java com Spring Boot que simula operaç�
 - Autenticação segura com JWT
 - Gerenciamento de carteira digital
 - Registro e gerenciamento de métodos de pagamento
+- Gerenciamento de faturas mensais
 - Timeline de atividades do usuário
 - Endpoints RESTful
 - Criptografia de dados sensíveis
@@ -86,6 +87,39 @@ FajBank é uma API REST desenvolvida em Java com Spring Boot que simula operaç�
 - **POST /v1/wallet/remove/{cardId}**
   - Remove um método de pagamento
   - Requer autenticação
+
+### Faturas
+
+- **POST /v1/invoice**
+  - Cria uma nova fatura
+  - Requer autenticação
+  - Payload:
+    ```json
+    {
+      "due_date": "2024-04-10",
+      "description": "string",
+      "amount": "100.00"
+    }
+    ```
+
+- **GET /v1/invoice**
+  - Lista todas as faturas do cliente
+  - Requer autenticação
+
+- **GET /v1/invoice/{invoiceId}**
+  - Obtém detalhes de uma fatura específica
+  - Requer autenticação
+
+- **POST /v1/invoice/{invoiceId}/charges**
+  - Adiciona uma nova cobrança a uma fatura existente
+  - Requer autenticação
+  - Payload:
+    ```json
+    {
+      "description": "string",
+      "amount": "50.00"
+    }
+    ```
 
 ### Timeline
 
