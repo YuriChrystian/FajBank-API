@@ -3,7 +3,7 @@ package br.com.faj.bank.checkout.model.domain;
 import br.com.faj.bank.checkout.model.TransactionStatus;
 import br.com.faj.bank.checkout.model.entity.CheckoutTransactionEntity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record CheckoutTransactionDomain(
         Long id,
@@ -11,8 +11,8 @@ public record CheckoutTransactionDomain(
         Long paymentMethodId,
         Long customerId,
         TransactionStatus status,
-        LocalDate created,
-        LocalDate updated
+        LocalDateTime created,
+        LocalDateTime updated
 ) {
 
     public static CheckoutTransactionDomain of(CheckoutTransactionEntity entity) {

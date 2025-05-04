@@ -2,7 +2,7 @@ package br.com.faj.bank.invoice.model.entity;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -17,7 +17,7 @@ public class InvoiceEntity {
     private Long customerId;
 
     @Column(nullable = false)
-    private LocalDate dueDate;
+    private LocalDateTime dueDate;
 
     @Column(nullable = false)
     private BigDecimal totalAmount;
@@ -44,11 +44,11 @@ public class InvoiceEntity {
         this.customerId = customerId;
     }
 
-    public LocalDate getDueDate() {
+    public LocalDateTime getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDate dueDate) {
+    public void setDueDate(LocalDateTime dueDate) {
         this.dueDate = dueDate;
     }
 

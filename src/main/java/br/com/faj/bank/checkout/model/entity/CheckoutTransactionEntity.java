@@ -6,7 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "checkout_transaction")
@@ -24,9 +24,9 @@ public class CheckoutTransactionEntity {
 
     private TransactionStatus status;
 
-    private LocalDate created;
+    private LocalDateTime created;
 
-    private LocalDate updated;
+    private LocalDateTime updated;
 
     public CheckoutTransactionEntity() {}
 
@@ -70,19 +70,19 @@ public class CheckoutTransactionEntity {
         this.status = status;
     }
 
-    public LocalDate getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDate created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
 
-    public LocalDate getUpdated() {
+    public LocalDateTime getUpdated() {
         return updated;
     }
 
-    public void setUpdated(LocalDate updated) {
+    public void setUpdated(LocalDateTime updated) {
         this.updated = updated;
     }
 }

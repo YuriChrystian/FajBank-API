@@ -4,7 +4,7 @@ Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 
 {
-  "due_date": "2024-04-10",
+  "due_date": "2024-03-20T14:30:00",
   "description": "Monthly service fee",
   "amount": "150.00"
 }

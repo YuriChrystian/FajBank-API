@@ -11,7 +11,7 @@ import br.com.faj.bank.wallet.data.CardPaymentMethodRepository;
 import br.com.faj.bank.wallet.data.WalletCustomerRepository;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Component
 public class CreateTransactionUseCase {
@@ -54,8 +54,8 @@ public class CreateTransactionUseCase {
 
         var entity = new CheckoutTransactionEntity();
         entity.setCustomerId(session.getCustomerId());
-        entity.setCreated(LocalDate.now());
-        entity.setUpdated(LocalDate.now());
+        entity.setCreated(LocalDateTime.now());
+        entity.setUpdated(LocalDateTime.now());
         entity.setInvoiceId(invoiceId);
         entity.setStatus(TransactionStatus.PENDING);
 
