@@ -17,7 +17,6 @@ FajBank é uma API REST desenvolvida em Java com Spring Boot que simula operaç�
 - Documentação interativa com OpenAPI/Swagger
 
 ## Documentação da API
-
 A documentação completa dos endpoints está disponível em dois formatos:
 
 ### Swagger UI (Interativa)
