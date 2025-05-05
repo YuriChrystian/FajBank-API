@@ -1,6 +1,7 @@
 package br.com.faj.bank.checkout;
 
 import br.com.faj.bank.checkout.domain.CreateTransactionUseCase;
+import br.com.faj.bank.checkout.domain.GetTransactionUseCase;
 import br.com.faj.bank.checkout.model.request.CreateTransactionRequest;
 import br.com.faj.bank.checkout.model.response.CheckoutFailResponse;
 import br.com.faj.bank.checkout.model.response.CheckoutTransactionResponse;
@@ -13,11 +14,14 @@ import org.springframework.web.bind.annotation.*;
 public class CheckoutController {
 
     private final CreateTransactionUseCase createTransactionUseCase;
+    private final GetTransactionUseCase getTransactionUseCase;
 
     public CheckoutController(
-            CreateTransactionUseCase createTransactionUseCase
+            CreateTransactionUseCase createTransactionUseCase,
+            GetTransactionUseCase getTransactionUseCase
     ) {
         this.createTransactionUseCase = createTransactionUseCase;
+        this.getTransactionUseCase = getTransactionUseCase;
     }
 
     @PostMapping("/create")
@@ -48,10 +52,23 @@ public class CheckoutController {
 
     @GetMapping("/status/{transaction_id}")
     public ResponseEntity<?> getTransactionStatus(
-            @PathVariable("transaction_id") String transactionId
+            @PathVariable("transaction_id") Long transactionId
     ) {
-        // TODO
-        return ResponseEntity.internalServerError().body(null);
+        if (transactionId == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        try {
+            var transaction = getTransactionUseCase.get(transactionId);
+            // Precisa criar novas propriedades e salva na base os dados doo cartão + fatura para evitar query
+            return new ResponseEntity<>(transaction, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            var response = new CheckoutFailResponse(
+                    e.getMessage(),
+                    transactionId
+            );
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/cancel/{transaction_id}")
