@@ -42,6 +42,8 @@ public class CreateTransactionUseCase {
             Long invoiceId
     ) {
 
+        // se tiver uma transação em aberto, não criar uma nova
+
         if (invoiceId == null) {
             throw new IllegalArgumentException("Invoice ID cannot be null");
         }

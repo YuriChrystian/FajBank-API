@@ -1,8 +1,10 @@
 package br.com.faj.bank.invoice.model.entity;
 
+import com.nimbusds.jose.shaded.gson.GsonBuilder;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 @Entity
@@ -74,5 +76,14 @@ public class InvoiceEntity {
 
     public void setCharges(List<InvoiceChargeEntity> charges) {
         this.charges = charges;
+    }
+
+    public HashMap<String, String> getMetadata() {
+        HashMap<String, String> metadata = new HashMap<>();
+        metadata.put("id", String.valueOf(id));
+        metadata.put("totalAmount", String.valueOf(totalAmount));
+        metadata.put("status", String.valueOf(status));
+        metadata.put("dueDate", String.valueOf(dueDate));
+        return metadata;
     }
 } 

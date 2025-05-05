@@ -1,18 +1,20 @@
+import auth.http
+
 ### Criar transação com cartão de crédito
 POST http://localhost:8080/v1/checkout/create
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{auth_token}}
 
 {
-    "invoice_id": 123,
-    "payment_method_id": 456,
+    "invoice_id": 1,
+    "payment_method_id": 1,
     "payment_type": "CREDIT_CARD"
 }
 
 ### Consultar status do checkout
-GET http://localhost:8080/v1/checkout/status/789
-Authorization: Bearer {{token}}
+GET http://localhost:8080/v1/checkout/status/2
+Authorization: Bearer {{auth_token}}
 
 ### Cancelar checkout
-PUT http://localhost:8080/v1/checkout/cancel/789
-Authorization: Bearer {{token}}
+PUT http://localhost:8080/v1/checkout/cancel/2
+Authorization: Bearer {{auth_token}}

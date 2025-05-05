@@ -2,6 +2,8 @@ package br.com.faj.bank.wallet.model.entity;
 
 import jakarta.persistence.*;
 
+import java.util.HashMap;
+
 @Entity
 @Table(name = "card_payment_method")
 public class CardPaymentMethodEntity {
@@ -97,5 +99,17 @@ public class CardPaymentMethodEntity {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getLastForDigits(){
+        return cardNumber.substring(cardNumber.length()-4, cardNumber.length());
+    }
+
+    public HashMap<String, String> getMetadata() {
+        HashMap<String, String> metadata = new HashMap<>();
+        metadata.put("id", String.valueOf(id));
+        metadata.put("cardNumber", String.valueOf(getLastForDigits()));
+        metadata.put("brand", String.valueOf(brand));
+        return metadata;
     }
 }
