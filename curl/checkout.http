@@ -16,5 +16,5 @@ GET http://localhost:8080/v1/checkout/status/2
 Authorization: Bearer {{auth_token}}
 
 ### Cancelar checkout
-PUT http://localhost:8080/v1/checkout/cancel/789
+PUT http://localhost:8080/v1/checkout/cancel/2
 Authorization: Bearer {{auth_token}}

@@ -1,5 +1,6 @@
 package br.com.faj.bank.checkout;
 
+import br.com.faj.bank.checkout.domain.CancelTransactionUseCase;
 import br.com.faj.bank.checkout.domain.CreateTransactionUseCase;
 import br.com.faj.bank.checkout.domain.GetTransactionUseCase;
 import br.com.faj.bank.checkout.model.request.CreateTransactionRequest;
@@ -15,13 +16,16 @@ public class CheckoutController {
 
     private final CreateTransactionUseCase createTransactionUseCase;
     private final GetTransactionUseCase getTransactionUseCase;
+    private final CancelTransactionUseCase cancelTransactionUseCase;
 
     public CheckoutController(
             CreateTransactionUseCase createTransactionUseCase,
+            CancelTransactionUseCase cancelTransactionUseCase,
             GetTransactionUseCase getTransactionUseCase
     ) {
         this.createTransactionUseCase = createTransactionUseCase;
         this.getTransactionUseCase = getTransactionUseCase;
+        this.cancelTransactionUseCase = cancelTransactionUseCase;
     }
 
     @PostMapping("/create")
@@ -73,9 +77,18 @@ public class CheckoutController {
 
     @PutMapping("/cancel/{transaction_id}")
     public ResponseEntity<?> cancelTransaction(
-            @PathVariable("transaction_id") String transactionId
+            @PathVariable("transaction_id") Long transactionId
     ) {
-        // TODO
-        return ResponseEntity.internalServerError().body(null);
+        try {
+            cancelTransactionUseCase.cancel(transactionId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (RuntimeException e) {
+            var response = new CheckoutFailResponse(
+                    e.getMessage(),
+                    null
+            );
+
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
     }
 }
