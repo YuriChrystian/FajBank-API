@@ -3,8 +3,13 @@ GET http://127.0.0.1:8080/v1/customer
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 
-### Lista all customer
+### List all customer (admin)
 GET http://127.0.0.1:8080/v1/customer/all
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+### Remove customer (admin)
+PUT http://127.0.0.1:8080/v1/customer/delete-customer/54
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 

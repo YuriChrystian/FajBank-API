@@ -55,6 +55,24 @@ public class CustomerController {
         return ResponseEntity.ok(data.stream().map(CustomerResponse::toResponse).toList());
     }
 
+    @PutMapping("/delete-customer/{customerId}")
+    public ResponseEntity<?> deleteCustomer(
+            @PathVariable("customerId") Long customerId
+    ) {
+        var customer = customerRepository.findById(customerId);
+
+        if (customer.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        customerRepository.delete(customer.get());
+        // Precisa limpar a base depois, criar use case para fazer isso
+
+        var response = new HashMap<String, String>()
+                .put("message", "Customer deleted successfully");
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping
     public ResponseEntity<CustomerResponse> editField(
             @RequestBody UpdateCustomerRequest request
