@@ -18,3 +18,7 @@ Authorization: Bearer {{auth_token}}
 ### Cancelar checkout
 PUT http://localhost:8080/v1/checkout/cancel/2
 Authorization: Bearer {{auth_token}}
+
+### Confirmar pagamento
+PUT http://localhost:8080/confirm-payment/1
+Authorization: Bearer {{auth_token}}

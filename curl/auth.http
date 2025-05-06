@@ -3,7 +3,7 @@ POST http://127.0.0.1:8080/v1/signin
 Content-Type: application/json
 
 {
-  "email": "teste1@gmail.com",
+  "email": "yuri@gmail.com",
   "password": "123123"
 }
 

@@ -3,12 +3,15 @@ package br.com.faj.bank.checkout;
 import br.com.faj.bank.checkout.domain.CancelTransactionUseCase;
 import br.com.faj.bank.checkout.domain.CreateTransactionUseCase;
 import br.com.faj.bank.checkout.domain.GetTransactionUseCase;
+import br.com.faj.bank.checkout.domain.PayTransactionUseCase;
 import br.com.faj.bank.checkout.model.request.CreateTransactionRequest;
 import br.com.faj.bank.checkout.model.response.CheckoutFailResponse;
 import br.com.faj.bank.checkout.model.response.CheckoutTransactionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/v1/checkout")
@@ -17,14 +20,17 @@ public class CheckoutController {
     private final CreateTransactionUseCase createTransactionUseCase;
     private final GetTransactionUseCase getTransactionUseCase;
     private final CancelTransactionUseCase cancelTransactionUseCase;
+    private final PayTransactionUseCase payTransactionUseCase;
 
     public CheckoutController(
             CreateTransactionUseCase createTransactionUseCase,
             CancelTransactionUseCase cancelTransactionUseCase,
+            PayTransactionUseCase payTransactionUseCase,
             GetTransactionUseCase getTransactionUseCase
     ) {
         this.createTransactionUseCase = createTransactionUseCase;
         this.getTransactionUseCase = getTransactionUseCase;
+        this.payTransactionUseCase = payTransactionUseCase;
         this.cancelTransactionUseCase = cancelTransactionUseCase;
     }
 
@@ -89,6 +95,19 @@ public class CheckoutController {
             );
 
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/confirm-payment/{transaction_id}")
+    public ResponseEntity<?> confirmPayment(
+            @PathVariable("transaction_id") Long transactionId
+    ) {
+        try {
+            var transaction = payTransactionUseCase.pay(transactionId);
+            var response = new HashMap<String, String>().put("status", transaction.name());
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
         }
     }
 }
