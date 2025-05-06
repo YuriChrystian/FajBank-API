@@ -45,6 +45,8 @@ public class SecurityConfiguration {
                                 .requestMatchers("/swagger-ui/**").permitAll()
                                 .requestMatchers("/v3/api-docs/**").permitAll()
                                 .requestMatchers("/api-docs/**").permitAll()
+                                // Health check endpoints
+                                .requestMatchers(HttpMethod.GET, "/v1/customer/all").hasAuthority("ROLE_ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .exceptionHandling(exceptionHandling ->

@@ -3,6 +3,11 @@ GET http://127.0.0.1:8080/v1/customer
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 
+### Lista all customer
+GET http://127.0.0.1:8080/v1/customer/all
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
 ### Update customer data
 POST  http://127.0.0.1:8080/v1/customer
 Content-Type: application/json
