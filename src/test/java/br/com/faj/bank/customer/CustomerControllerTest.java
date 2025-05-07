@@ -1,5 +1,6 @@
 package br.com.faj.bank.customer;
 
+import br.com.faj.bank.customer.data.CustomerRepository;
 import br.com.faj.bank.customer.domain.FetchCustomerUseCase;
 import br.com.faj.bank.customer.domain.UpdateCustomerFieldUseCase;
 import br.com.faj.bank.customer.model.domain.CustomerDomain;
@@ -31,15 +32,19 @@ class CustomerControllerTest {
     @Mock
     private RegisterCustomerTimelineUseCase registerCustomerTimelineUseCase;
 
+    @Mock
+    private CustomerRepository customerRepository;
+
     private CustomerController controller;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         controller = new CustomerController(
-            registerCustomerTimelineUseCase,
-            updateCustomerFieldUseCase,
-            fetchCustomerUseCase
+                registerCustomerTimelineUseCase,
+                updateCustomerFieldUseCase,
+                fetchCustomerUseCase,
+                customerRepository
         );
     }
 
@@ -76,7 +81,7 @@ class CustomerControllerTest {
     void givenValidUpdateRequest_whenEditField_thenReturnUpdatedCustomer() {
         // Arrange
         List<FieldEditDataRequest<String>> fields = List.of(
-            new FieldEditDataRequest<>("FIRST_NAME", "Jane")
+                new FieldEditDataRequest<>("FIRST_NAME", "Jane")
         );
         UpdateCustomerRequest request = new UpdateCustomerRequest(fields);
         CustomerDomain updatedCustomer = new CustomerDomain("Jane", "Doe", "jane@example.com");
@@ -101,7 +106,7 @@ class CustomerControllerTest {
     void givenInvalidUpdateRequest_whenEditField_thenReturnBadRequest() {
         // Arrange
         List<FieldEditDataRequest<String>> fields = List.of(
-            new FieldEditDataRequest<>("FIRST_NAME", "Jane")
+                new FieldEditDataRequest<>("FIRST_NAME", "Jane")
         );
         UpdateCustomerRequest request = new UpdateCustomerRequest(fields);
 
