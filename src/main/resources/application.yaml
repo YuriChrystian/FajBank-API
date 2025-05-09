@@ -12,7 +12,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: "${FAJBANK_USERNAME_DATABASE}"
     password: "${FAJBANK_PASSWORD_DATABASE}"
-    url: jdbc:mysql://localhost:3306/fajbank?useTimezone=true&serverTimezone=UTC
+    # url: jdbc:mysql://localhost:3306/fajbank?useTimezone=true&serverTimezone=UTC
+    url: jdbc:mysql://bankroot.mysql.database.azure.com:3306/fajbank?useTimezone=true&serverTimezone=UTC
 
   flyway:
     baseline-on-migrate: true
